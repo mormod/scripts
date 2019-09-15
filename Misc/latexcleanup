@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+maxdepth=1
+
+extensions=("aux" "log" "fls" "fdb_*" "gz" "out")
+
+# Needs message
+function askForPermission () 
+{
+	printf "Are you sure you want to more than one? [y|N] \n" #"$1"	
+	read answer
+    out=0 
+	if [ "$answer" == 'y' ]
+	then
+        out=1    
+	fi
+}
+
+
+while getopts ":d:p:v" opt; do
+	case $opt in 
+		v) VERBOSE=1
+		;;
+		d) DEPTH="$OPTARG"
+		;;
+		p) INCLUDE_PDF=1
+		;;
+        :) printf "ERROR: Option -$OPTARG requires an argument \n"
+            exit 1
+        ;;
+        \?) printf "ERROR: Invalid option -$OPTARG \n"
+            exit 1
+        ;;
+	esac
+done
+
+
+if [[ (( ! -z "$DEPTH" )) && "$DEPTH" -gt 1 ]]
+then
+    echo "$DEPTH"
+    depthResult=$(askForPermission) #"set recursion depth to more than one")
+    if [[ "$depthResult" -eq 1 ]]
+    then
+        maxdepth=$DEPTH 
+    fi
+fi
+
+printf "max recursion depth set to %s \n" $maxdepth
+
+if [[ ! -z "$INCLUDE_PDF" ]]
+then
+    includePDFResult=$(askForPermission) # "include pdf files")
+    if [[ "$includePDFResult" -eq 1 ]] 
+    then 
+        extensions+=("pdf")
+    fi
+else 
+    echo "pdfs were not included"
+fi
+
+printf "$PWD"
+
+for ((i=0;i<${#extensions[@]};i++))
+do
+	if [ -z "$VERBOSE" ]
+	then
+		find "$PWD" -maxdepth $maxdepth -name "*.${extensions[i]}"  -exec  rm -f '{}' \;
+	else 
+		find "$PWD" -maxdepth $maxdepth -name "*.${extensions[i]}" -exec printf "deleting: %s\n" {} \; -exec rm -rf '{}' \;
+	fi
+done

@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+# function that displays the time in H/M/S format
+# credit: Stéphane Gimenez
+# https://unix.stackexchange.com/a/27014
+
+function displaytime {
+	local T=$1
+	local D=$((T/60/60/24))
+	local H=$((T/60/60%24))
+	local M=$((T/60%60))
+	local S=$((T%60))
+	(( $D > 0 )) && printf '%d days ' $D
+	(( $H > 0 )) && printf '%d hours ' $H
+	(( $M > 0 )) && printf '%d minutes ' $M
+	(( $D > 0 || $H > 0 || $M > 0 )) && printf ' and '
+	printf '%d seconds\n' $S
+}
+
+# define how long the timer shall go
+minute=60
+desiredStudy=$1
+desiredBreak=$2
+desiredCycles=$3
+
+if [[ ! -z "$desiredCyles"  ]] || [[ ! "$desiredCycles" -gt 0 ]] ; then
+    desiredCycles=1
+fi
+
+if [[ -z  "$desiredBreak" ]] || [[ ! "$desiredBreak" -gt 0 ]] ; then
+    desiredBreak=0
+fi
+    
+if [[ -z "$desiredStudy" ]] || [[ ! "$desiredStudy" -gt 0 ]] ; then
+	desiredStudy=20 
+fi
+
+function studyCycle () {
+     time=$(($desiredStudy * minute))	 
+
+    # find vertical center
+    vert_cent=$((`tput lines` / 2))
+    # find horizontal center
+    horizl_cent=$((`tput cols` / 2-10))
+
+    clear # so no overlap occurs
+
+    # handles displaying and refreshing the time
+    while [ $time -gt 0 ]
+    do	
+    	tput cup $vert_cent $horizl_cent && echo $(displaytime $time)
+    	sleep 1
+	    : $((time--))
+	    clear
+    done 
+}
+
+function breakCycle () {
+    time=$(($desiredBreak * minute))	 
+
+    # find vertical center
+    vert_cent=$((`tput lines` / 2))
+    # find horizontal center
+    horizl_cent=$((`tput cols` / 2-10))
+
+    clear # so no overlap occurs
+
+    # handles displaying and refreshing the time
+    while [ $time -gt 0 ]
+    do	
+    	tput cup $vert_cent $horizl_cent && echo $(displaytime $time)
+    	sleep 1
+	    : $((time--))
+	    clear
+    done 
+}
+
+currentCycle=1 
+while [ "$currentCycle" -lt "$((desiredCycles + 1))" ] 
+do 
+    printf "\n"
+    clear 
+    tput cup $vert_cent $horizl_cent && printf '### CYCLE %d of %d STARTS NOW ###\n' $currentCycle $desiredCycles
+    sleep 5
+    clear
+    say Start Lernphase
+    studyCycle
+    clear 
+    tput cup $vert_cent $horizl_cent && echo "### BREAK ###"
+    sleep 5
+    clear
+    say Pause
+    breakCycle   
+    $((currentCycle++))
+done
+
+# visual feedback
+say Fertig
+tput cup $vert_cent $horizl_cent && echo "### DONE ###"
+
+sleep 5
+
+clear
