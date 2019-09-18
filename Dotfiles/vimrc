@@ -5,10 +5,10 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'ycm-core/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'lervag/vimtex'
+" Plugin 'xuhdev/vim-latex-live-preview'
+" Plugin 'lervag/vimtex'
 
 call vundle#end()           
 filetype plugin indent on
