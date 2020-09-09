@@ -1,0 +1,30 @@
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="/home/mormod/.oh-my-zsh"
+
+ZSH_THEME="eastwood"
+
+plugins=(
+git
+z
+sudo
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# store zcomp files in tmp
+compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
+
+
+# aliases
+alias testsound="aplay /usr/share/sounds/alsa/Front_Center.wav"
+alias c="clear"
+alias cdc="cd; clear"
+alias i3conf="vim ~/.config/i3/config"
+alias zshconfig="vim ~/.zshrc"
+alias zshsrc="source ~/.zshrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias x="exit"
