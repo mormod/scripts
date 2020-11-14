@@ -19,6 +19,7 @@ compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 
 
 # aliases
+alias untargz="tar xvzf"
 alias testsound="aplay /usr/share/sounds/alsa/Front_Center.wav"
 alias c="clear"
 alias cdc="cd; clear"
@@ -28,3 +29,5 @@ alias zshsrc="source ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 alias x="exit"
+alias untar="tar -zxvf"
+alias remoodle="sudo /etc/init.d/apache2 restart"

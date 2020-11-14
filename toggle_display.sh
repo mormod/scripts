@@ -4,7 +4,7 @@ if [[ $(xrandr | grep -w 'connected' | wc -l) -eq 2 ]] && [[ $(xrandr | grep '*+
 then
 	if [ $(xrandr | grep 'HDMI1 connected' | wc -l) -eq 1 ] 
 	then
-		if [ $(xrandr | grep 'HDMI1 connected' | grep '1920x1200' | wc -l) -gt 1 ]
+		if [[ $(xrandr | grep 'HDMI1 connected' | wc -l) -eq 1 ]] && [[ $(xrandr | grep '1920x1200' | wc -l) -gt 1 ]]
 		then
 			xrandr --output eDP1 --auto --output HDMI1 --mode 1920x1200 --scale 1.333333333x1.2 --right-of eDP1
 		else

@@ -6,7 +6,7 @@ practical = {
 	"dbis":		[6, 0],
 	"swt":		[6, 0]
 }
-
+2.7
 theoretical = {
 	"fosap":	[6, 0],
 	"buk":		[7, 0],
@@ -38,7 +38,7 @@ app = {
 groups = [["practical", practical], ["theoretical", theoretical], ["math", math], ["technical", technical], ["misc", misc], ["app", app]]
 
 greeting = "please enter the grades you received for the following classes"
-divider = "-------------------------------------------------------------- \n"
+div = "-------------------------------------------------------------- \n"
 infoLength = len(greeting)
 
 def divider(length, text):	
@@ -66,9 +66,21 @@ def groupResult(group):
 	for key in group[1]:
 		cpGroup += group[1][key][0]
 		weightedGrades += group[1][key][0] * group[1][key][1]
-	print("%*s: empty" %(15, group[0])) if group[1] == {} or cpGroup == 0 else print(formatOutputString(group[0], cutOffDecimalPlaces(weightedGrades / cpGroup)))
+	#print("%*s: empty" %(15, group[0])) if group[1] == {} or cpGroup == 0 else print(formatOutputString(group[0], cutOffDecimalPlaces(weightedGrades / cpGroup)))
 	return (cpGroup, weightedGrades)
 
+
+# Returns the group in the order in the most useful order regarding elimination of grades
+def rankGroup(group):
+	ret = {}
+	
+	for key in group[1]:
+		score = group[1][key][0] * group[1][key][1]
+		ret[key] = score
+	
+	ret = sorted(ret.items(), key=lambda x: x[1], reverse=True)
+	print(ret)
+	return ret
 
 def main():
 	print(greeting + "\n")
@@ -95,7 +107,7 @@ def main():
 		userInput = str(input()).split(',', 1)
 		if userInput[0] == "0":
 			break
-		try:
+		try:	
 			app[gradeID] = [int(userInput[0]), float(userInput[1])]
 		except Exception as e:
 			print("please enter new entry like \"cp,grade\" or enter 0 to stop")	
@@ -106,13 +118,16 @@ def main():
 	cpGlobal = 0
 	weightedGradesGlobal = 0
 	for group in groups:
+		rankGroup(group)
 		res = groupResult(group)	
 		cpGlobal += res[0]
 		weightedGradesGlobal += res[1]
 		
 	
 	print(formatOutputString("global", (cutOffDecimalPlaces(weightedGradesGlobal / cpGlobal))))
-	
+
+
+
 
 
 main()
