@@ -1,9 +1,11 @@
 * {
-  background-color: #282C33;
+  background-color: #0a0a0a;
   border-color: #2e343f;
   text-color: #8ca0aa;
   spacing: 0;
-  font: "FiraMono Regular 13"; 
+  font: "FiraMono Nerd Font 13"; 
+  show-icons: true;
+  icon-theme: "Zafiro-icons";
   width: 512px;
 }
 
@@ -41,4 +43,10 @@ element {
 
 element selected {
   background-color: #2e343f;
+}
+
+window {
+  foreground: #ebdbb2;
+  border-radius: 10px;
+  border: 2px;
 }
