@@ -20,4 +20,7 @@ scripts
 | +  timer                     simple pomodoro timer
 ```
 ---
+Fonts: 	FiraMono Nerd Font
+	Lilex Nerd Font
+---
 mormod
