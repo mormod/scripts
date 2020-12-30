@@ -113,6 +113,7 @@ mode "resize" {
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
+
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
@@ -166,14 +167,8 @@ smart_gaps on
 #-- EXEC ALWAYS --------------------#
 #-----------------------------------#
 
-# polybar startup
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# load background
-exec_always --no-startup-id sleep 1 && feh --no-fehbg --bg-scale ~/.config/background
-
-# detect displays
-exec_always ~/projects/scripts/toggle_display.sh
+# starup everything
+exec_always ~/projects/scripts/init_desktop.sh
 
 #-- EXEC ON STARTUP ----------------#
 #-----------------------------------#
@@ -183,6 +178,8 @@ exec redshift
 
 # start compton
 exec --no-startup-id compton -b -f
+
+# start pulse
 exec --no-startup-id pulseaudio --start
 
 # start notification daemon
@@ -211,11 +208,12 @@ exec sciebo
 bindsym XF86Display exec ~/projects/scripts/toggle_display.sh
 
 # screenshots
-bindsym --release $mod+Print    exec scrot '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png $f'
-bindsym --release $mod+Shift+s  exec scrot '/tmp/%F_%T_$wx$h.png' -s -z -e 'xclip -selection clipboard -target image/png $f'
+bindsym --release $mod+Print    	exec scrot '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png $f'
+bindsym --release $mod+Shift+Print    	exec scrot '/tmp/%F_%T_$wx$h.png' -d 1 -e 'xclip -selection clipboard -target image/png $f && exec rofi -e Screenshot! -theme $rofitheme'
+bindsym --release $mod+Shift+s  	exec scrot '/tmp/%F_%T_$wx$h.png' -s -z -e 'xclip -selection clipboard -target image/png $f'
 
 # media player controls
-bindsym XF86AudioToggle exec playerctl play-pause
+bindsym XF86AudioPlay   exec playerctl play-pause
 bindsym XF86AudioNext   exec playerctl next
 bindsym XF86AudioPrev   exec playerctl previous
 
@@ -233,6 +231,10 @@ bindsym XF86MonBrightnessDown   exec xbacklight -dec 5%
 bindsym $mod+End exec rofi      -show power-menu -modi power-menu:rofi-power-menu -theme $rofitheme
 bindsym $mod+d exec rofi        -show drun -theme $rofitheme
 bindsym $mod+Tab exec rofi      -show window -theme $rofitheme
+
+# circle through desktops
+bindsym $mod+Control+Left workspace prev
+bindsym $mod+Control+Right workspace next
 
 # lock screen
 bindsym $mod+l exec $Locker

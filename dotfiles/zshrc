@@ -31,6 +31,8 @@ alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir
 alias x="exit"
 alias untar="tar -zxvf"
 alias remoodle="sudo /etc/init.d/apache2 restart"
+alias top="bpytop"
+alias rm="rm -i"
 
 PATH="/home/mormod/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/mormod/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
