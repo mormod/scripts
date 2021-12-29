@@ -1,0 +1,72 @@
+
+configuration {
+  show-icons: true;
+  icon-theme: "Papirus-Adapta-Nokto-Maia";
+}
+
+* {
+  background-color: #2E3440;
+  border-color: #434C5E;
+  text-color: #ECEFF4;
+  spacing: 0;
+  width: 50%;
+  height: 50%;
+}
+
+window {
+  border: 3; 
+}
+
+inputbar {
+  border: 0 0 1px 0;
+  children: [entry];
+}
+
+prompt {
+  padding: 16px;
+  border: 0 1px 0 0;
+}
+
+textbox {
+  border: 0 0 1px 0;
+  padding: 8px 16px;
+}
+
+entry {
+  padding: 16px;
+}
+
+listview {
+  cycle: false;
+  margin: 0 0 -1px 0;
+  scrollbar: false;
+}
+
+element-icon {
+  padding: 0px 10px 0px 0px;
+  size: 32px;
+  border: 0px;
+}
+
+element-text {
+  padding: 7px 0px 0px 0px; 
+}
+
+element-icon selected {
+  background-color: #5E81AC;
+}
+
+element-text selected {
+  background-color: #5E81AC;
+  text-color: #ECEFF4;
+}
+
+element {
+  border: 0 0 1px 0;
+  padding: 16px;
+}
+
+element selected {
+  background-color: #5E81AC; 
+}
+
