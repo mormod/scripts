@@ -12,14 +12,16 @@ TOINSTALL=(git \
     bluez-utils \
     clang \
     curl \
+    clipit \
     cmake \
     diffutils \
     ethtool \
+    firefox \
     ffmpeg \
     flameshot \
     gcc \
     gcc-libs \
-    gbd \
+    gdb \
     gnome-keyring \
     grep \
     imagemagick \
@@ -35,6 +37,7 @@ TOINSTALL=(git \
     pcmanfm \
     python \
     python-pip \
+    ranger \
     rofi \
     rofi-calc \
     shotwell \
@@ -43,10 +46,12 @@ TOINSTALL=(git \
     thunderbird \
     ttf-fira-code \
     unzip \
+    volumeicon \
     vlc \
     wget \
     which \
     whois \
+    xournalpp \
     zathura \
     zoom \
     zsh \
@@ -65,6 +70,8 @@ do
     fi
 done
 
+# really, really start fresh
+rm -rf ~/.config ~/.local
 
 # perform a complete system update. since there is nothing installed yet, this
 # won't destroy any dependencies
@@ -139,3 +146,7 @@ else
     echo "Setting ZSH as shell was not possible."
 fi
 
+git clone https://github.com/mormod/scripts /tmp/scripts
+cd /tmp/scripts
+mv dots/.config ~/.config
+mv .*profile ~
