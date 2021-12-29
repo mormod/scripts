@@ -128,10 +128,9 @@ makepkg -si
 pacman -U *.tar.zst
 echo "Installed Bluetooth AutoConnect."
 
-
 cd ~
 
-
+# check for ZSH and install as defautl shell, along with oh-my-zsh
 if [[ $(which zsh) ]]
 then
     echo "Set ZSH as shell."
