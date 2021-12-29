@@ -58,6 +58,7 @@ TOINSTALL=(git \
     zsh-completions)
 
 INSTALLABLE=()
+NONINSTALLABLE=()
 
 # determine which packages are installable and stage them
 for pkg in ${TOINSTALL[@]};
@@ -67,6 +68,9 @@ do
     then
         INSTALLABLE+=($pkg);
         echo "Package '$pkg' is staged for install.";
+    else
+        NONINSTALLABLE+=($pkg)
+        echo "Package '$pkg' must be installed manually.";
     fi
 done
 
@@ -149,3 +153,12 @@ git clone https://github.com/mormod/scripts /tmp/scripts
 cd /tmp/scripts
 mv dots/.config ~/.config
 mv .*profile ~
+
+if [[ $NONINSTALLABLE ]]; 
+then
+    echo ${NONINSTALLABLE[@]} > ~/install-manually
+    echo ""
+    echo "There are some packages that have to be installed manually:"
+    echo ${NONINSTALLABLE[@]}
+    echo "Find a list of these at ~/install-manually"
+fi
