@@ -4,9 +4,16 @@ TOINSTALL=(git \
     curl \
     arm-none-eabi-gcc \
     arm-none-eabi-gdb \
+    arm-none-eabi-newlib \
     aaxtomp3 \
+    acpi \
     alacritty \
     alsa-utils \
+    avr-gcc \
+    avr-binutils \
+    avr-gdb \
+    avr-libc \
+    qt5-wayland \
     base-devel \
     blueman \
     bluez-utils \
@@ -24,12 +31,15 @@ TOINSTALL=(git \
     gdb \
     gnome-keyring \
     grep \
+    grim \
+    slurp \
     imagemagick \
     inotify-tools \
     keepassxc \
     keychain \
     man \
     make \
+    mako \
     nano \
     neovim \
     openssh \
@@ -51,8 +61,11 @@ TOINSTALL=(git \
     wget \
     which \
     whois \
+    wl-clipboard \
+    xdg-user-dirs \
     xournalpp \
     zathura \
+    zathura-pdf-mupdf \
     zoom \
     zsh \
     zsh-completions)
@@ -153,6 +166,8 @@ git clone https://github.com/mormod/scripts /tmp/scripts
 cd /tmp/scripts
 mv dots/.config ~/.config
 mv .*profile ~
+
+systemctl enable --now bluetooth.service
 
 if [[ $NONINSTALLABLE ]]; 
 then
