@@ -1,0 +1,7 @@
+makepkg -si updaten, sudo geht da nicht. das script muss als normaler user gestartet werden, dann in der critical section 
+
+bluetooth config, sudo systemctl enable --now bluetooth-autoconnect.service 
+ranger config
+xdg zeug
+
+am ende: sudo mandb (das macht apropos)
