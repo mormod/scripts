@@ -24,7 +24,6 @@ while true; do
         battery_remaining_time=$(acpi | sed -n 2p | awk '{ print $5 }')
     fi
 
-
     battery_charging_indicator=""
     if [[ $(acpi -b | head -1 | grep Charging) ]]; then
         battery_charging_indicator="⇧ "
