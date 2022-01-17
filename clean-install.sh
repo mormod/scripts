@@ -92,10 +92,10 @@ rm -rf ~/.config ~/.local
 
 # perform a complete system update. since there is nothing installed yet, this
 # won't destroy any dependencies
-pacman --noconfirm -Syyuu 
+pacman --noconfirm -Syyuu
 
-# install everything that's needed to get stuff from AUR 
-pacman --noconfirm -Sy git curl 
+# install everything that's needed to get stuff from AUR
+pacman --noconfirm -Sy git curl
 
 # install all installable packages
 pacman --noconfirm -Syu ${INSTALLABLE[@]}
@@ -114,7 +114,7 @@ echo "Installing Spotify."
 git clone https://aur.archlinux.org/spotify.git spotify
 cd spotify
 curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -
-makepkg -si 
+makepkg -si
 pacman -U *.tar.zst
 echo "Installed Spotify."
 
@@ -167,9 +167,13 @@ cd /tmp/scripts
 mv dots/.config ~/.config
 mv .*profile ~
 
+# make light (display brightness) executeable without root
+sudo usermod -aG video mhuellmann
+# enable bluetooth
 systemctl enable --now bluetooth.service
+systemctl enable --now bluetooth-autostart.service
 
-if [[ $NONINSTALLABLE ]]; 
+if [[ $NONINSTALLABLE ]];
 then
     echo ${NONINSTALLABLE[@]} > ~/install-manually
     echo ""
