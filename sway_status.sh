@@ -4,6 +4,7 @@ sep=' | '
 
 while true; do
     output=""
+
     weather=$(curl -s 'wttr.in/?format=%l:+%C+%t')
     network_ssid=$(iwgetid -r)
     battery_life=$(cat /sys/class/power_supply/BAT0/capacity)
@@ -23,7 +24,15 @@ while true; do
         battery_remaining_time=$(acpi | sed -n 2p | awk '{ print $5 }')
     fi
 
-    output="${output}${battery_life}%"
+
+    battery_charging_indicator=""
+    if [[ $(acpi -b | head -1 | grep Charging) ]]; then
+        battery_charging_indicator="⇧ "
+    elif [[ $(acpi -b | head -1 | grep Discharging) ]]; then
+        battery_charging_indicator="⇩ "
+    fi
+
+    output="${output}${battery_charging_indicator}${battery_life}%"
 
     # If laptop is fully charged and connected to power outlet, there is nothing to
     # display, so only display if not empty
