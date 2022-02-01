@@ -9,25 +9,27 @@ while true; do
     network_ssid=$(iwgetid -r)
     battery_life=$(cat /sys/class/power_supply/BAT0/capacity)
     battery_remaining_time=$(acpi | head -1 | awk '{ print $5 }')
+    battery_status=$(acpi | head -1 | awk '{ print $3 }')
     time=$(date +'%c')
 
     if [[ ! -z "$network_ssid" ]]; then
         output="${network_ssid}${sep}"
     fi
 
-    if [[ ! -z "$weather" ]]; then
+    if [[ ! -z "$weather" ]] & [[ ! "$(echo $weather | awk '{ print $1 }')" = "Unknown" ]]; then
         output="${output}${weather}${sep}"
     fi
 
     # Fixes problem with acpi showing the battery state for the wrong battery
-    if [[ "$battery_remaining" = "rate" ]]; then
+    if [[ "$battery_remaining_time" = "rate" ]]; then
         battery_remaining_time=$(acpi | sed -n 2p | awk '{ print $5 }')
+        battery_status=$(acpi | sed -n 2p | awk '{ print $3 }')
     fi
 
-    battery_charging_indicator=""
-    if [[ $(acpi -b | head -1 | grep Charging) ]]; then
+    battery_charging_indicator="⇨ "
+    if [[ $(echo $battery_status | grep Charging) ]]; then
         battery_charging_indicator="⇧ "
-    elif [[ $(acpi -b | head -1 | grep Discharging) ]]; then
+    elif [[ $(echo $battery_status | grep Discharging) ]]; then
         battery_charging_indicator="⇩ "
     fi
 
