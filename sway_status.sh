@@ -41,7 +41,10 @@ while true; do
         output="${output} (${battery_remaining_time})"
     fi
 
-    output="${output}${sep}"
+    # This makes sure, that an output just consisting of spaces is ignored
+    if [[ ! -z $(echo "${output}") ]]; then
+        output="${output}${sep}"
+    fi
 
     echo "${output}${time}${sep}"
     sleep 1;

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ $(id -u) -eq 0 ]]; then
+    sudo -k
+    echo "Please execute as non-root user."
+    exit 1
+fi
+
 TOINSTALL=(git \
     curl \
     arm-none-eabi-gcc \
@@ -67,6 +73,7 @@ TOINSTALL=(git \
     zathura \
     zathura-pdf-mupdf \
     zoom \
+    vim \
     zsh \
     zsh-completions)
 
@@ -90,6 +97,9 @@ done
 # really, really start fresh
 rm -rf ~/.config ~/.local
 
+# gain root permissions
+su -
+
 # perform a complete system update. since there is nothing installed yet, this
 # won't destroy any dependencies
 pacman --noconfirm -Syyuu
@@ -102,7 +112,10 @@ pacman --noconfirm -Syu ${INSTALLABLE[@]}
 # install texlive group
 pacman --noconfirm -S texlive-most
 
-# make sure we are in hom
+# become normal user again
+logout
+
+# make sure we are in home
 cd ~
 
 # used for all aur installs later o
@@ -115,7 +128,6 @@ git clone https://aur.archlinux.org/spotify.git spotify
 cd spotify
 curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -
 makepkg -si
-pacman -U *.tar.zst
 echo "Installed Spotify."
 
 cd ~/.aurbuilds
@@ -124,7 +136,6 @@ echo "Installing Zoom."
 git clone https://aur.archlinux.org/zoom.git zoom
 cd zoom
 makepkg -si
-pacman -U *.tar.zst
 echo "Installed Zoom."
 
 cd ~/.aurbuilds
@@ -133,7 +144,6 @@ echo "Installing VS Code."
 git clone https://aur.archlinux.org/visual-studio-code-bin.git vscode
 cd vscode
 makepkg -si
-pacman -U *.tar.zst
 echo "Installed VS Code."
 
 cd ~/.aurbuilds
@@ -142,12 +152,11 @@ echo "Installing Bluetooth AutoConnect."
 git clone https://aur.archlinux.org/bluetooth-autoconnect.git bluetooth-autoconnect
 cd bluetooth-autoconnect
 makepkg -si
-pacman -U *.tar.zst
 echo "Installed Bluetooth AutoConnect."
 
 cd ~
 
-# check for ZSH and install as defautl shell, along with oh-my-zsh
+# check for ZSH and install as default shell, along with oh-my-zsh
 if [[ $(which zsh) ]]
 then
     echo "Set ZSH as shell."
@@ -168,7 +177,7 @@ mv dots/.config ~/.config
 mv .*profile ~
 
 # make light (display brightness) executeable without root
-sudo usermod -aG video mhuellmann
+sudo usermod -aG video $(id -un) 
 # enable bluetooth
 systemctl enable --now bluetooth.service
 systemctl enable --now bluetooth-autostart.service
@@ -176,8 +185,7 @@ systemctl enable --now bluetooth-autostart.service
 if [[ $NONINSTALLABLE ]];
 then
     echo ${NONINSTALLABLE[@]} > ~/install-manually
-    echo ""
-    echo "There are some packages that have to be installed manually:"
+    echo "\nThere are some packages that have to be installed manually:"
     echo ${NONINSTALLABLE[@]}
     echo "Find a list of these at ~/install-manually"
 fi

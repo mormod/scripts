@@ -7,3 +7,5 @@ ranger config
 xdg zeug
 
 am ende: sudo mandb (das macht apropos)
+
+vim .vimrc ultisnips

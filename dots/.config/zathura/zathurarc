@@ -4,4 +4,4 @@ set window-title-basename true
 set window-title-home-tilde true
 set scroll-full-overlap 0.01
 set scroll-step 20
-set font "Fira Code 11"
+set font "FiraCode Nerd Fonr 11"
