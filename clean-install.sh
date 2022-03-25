@@ -6,6 +6,8 @@ if [[ $(id -u) -eq 0 ]]; then
     exit 1
 fi
 
+AURBUILDDIR=$HOME/.aurbuilds
+
 TOINSTALL=(git \
     curl \
     arm-none-eabi-gcc \
@@ -23,6 +25,7 @@ TOINSTALL=(git \
     base-devel \
     blueman \
     bluez-utils \
+    chezmoi \
     clang \
     curl \
     clipit \
@@ -76,8 +79,27 @@ TOINSTALL=(git \
     zsh \
     zsh-completions)
 
+TOINSTALLAUR=(aaxtomp3 \
+    adwaita-dark \
+    bluetooth-autoconnect \
+    brother-hl2030 \
+    cozy-audiobooks-git \
+    mako \
+    nerd-fonts-fira-code \
+    ntfs3-dkms \
+    papirus-icon-theme-git \
+    rofi-lbonn-wayland \
+    visual-studio-code-bin \
+    xcursor-breeze \
+    xp-pen-tablet \
+    zoom)
+
 INSTALLABLE=()
 NONINSTALLABLE=()
+
+###########################################################################
+### pacman stuff ##########################################################
+###########################################################################
 
 # determine which packages are installable and stage them
 for pkg in ${TOINSTALL[@]};
@@ -114,44 +136,38 @@ pacman --noconfirm -S texlive-most
 # become normal user again
 logout
 
-# make sure we are in home
-cd ~
+###########################################################################
+### AUR stuff #############################################################
+###########################################################################
 
-# used for all aur installs later o
-mkdir .aurbuilds
+echo "Creating AUR build directory at '" $AURBUILDDIR "'"
+# used for all aur installs later
+mkcd -p $AURBUILDDIR
 
-cd ~/.aurbuilds
+# install yay
+echo "Installing YAY"
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -sic 
+echo "Installed YAY"
 
-echo "Installing Spotify."
+for pkg in ${TOINSTALLAUR[@]};
+do
+    echo "Installing" $pkg
+    yay --builddir=$AURBUILDDIR --searchby name --mflags "-sic" --sudoloop $pkg
+    echo "Installed" $pkg
+done
+
+echo "Installing spotify"
 git clone https://aur.archlinux.org/spotify.git spotify
 cd spotify
 curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -
 makepkg -si
-echo "Installed Spotify."
+echo "Installed spotify"
 
-cd ~/.aurbuilds
-
-echo "Installing Zoom."
-git clone https://aur.archlinux.org/zoom.git zoom
-cd zoom
-makepkg -si
-echo "Installed Zoom."
-
-cd ~/.aurbuilds
-
-echo "Installing VS Code."
-git clone https://aur.archlinux.org/visual-studio-code-bin.git vscode
-cd vscode
-makepkg -si
-echo "Installed VS Code."
-
-cd ~/.aurbuilds
-
-echo "Installing Bluetooth AutoConnect."
-git clone https://aur.archlinux.org/bluetooth-autoconnect.git bluetooth-autoconnect
-cd bluetooth-autoconnect
-makepkg -si
-echo "Installed Bluetooth AutoConnect."
+###########################################################################
+### ZSH stuff #############################################################
+###########################################################################
 
 cd ~
 
@@ -162,24 +178,32 @@ then
     chsh -s $(which zsh)
     echo "Done."
 
-    echo "Installing oh-my-zsh."
+    echo "Installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    echo "Installed oh-my-zsh."
+    echo "Installed oh-my-zsh"
 
 else
     echo "Setting ZSH as shell was not possible."
 fi
 
-git clone https://github.com/mormod/scripts /tmp/scripts
-cd /tmp/scripts
-mv dots/.config ~/.config
-mv .*profile ~
+###########################################################################
+### config stuff ##########################################################
+###########################################################################
+
+mkdir ~/src
+git clone https://github.com/mormod/scripts ~/src/scripts
+
+chezmoi init --apply https://github.com/mormod/dotfiles.git
 
 # make light (display brightness) executeable without root
 sudo usermod -aG video $(id -un) 
 # enable bluetooth
 systemctl enable --now bluetooth.service
 systemctl enable --now bluetooth-autostart.service
+
+###########################################################################
+### wrapup stuff ##########################################################
+###########################################################################
 
 if [[ $NONINSTALLABLE ]];
 then
