@@ -39,6 +39,7 @@ TOINSTALL=(git \
     gdb \
     gnome-keyring \
     grep \
+    git \
     grim \
     slurp \
     imagemagick \
@@ -61,6 +62,7 @@ TOINSTALL=(git \
     shotwell \
     sof-firmware \
     telegram-desktop \
+    texlive-most \
     thunderbird \
     ttf-fira-code \
     unzip \
@@ -124,14 +126,8 @@ su -
 # perform a complete system update. since there is nothing installed yet, this
 # won't destroy any dependencies
 pacman --noconfirm -Syyuu
-
-# install everything that's needed to get stuff from AUR
-pacman --noconfirm -Sy git curl
-
 # install all installable packages
-pacman --noconfirm -Syu ${INSTALLABLE[@]}
-# install texlive group
-pacman --noconfirm -S texlive-most
+pacman --noconfirm -S ${INSTALLABLE[@]}
 
 # become normal user again
 logout
