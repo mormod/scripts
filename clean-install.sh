@@ -50,7 +50,9 @@ TOINSTALL=(git \
     make \
     mako \
     nano \
-    neovim \
+    noto-fonts \
+    noto-fonts-emoji \
+    noto-fonts-cjk \
     openssh \
     owncloud-client \
     pcmanfm \
@@ -91,6 +93,9 @@ TOINSTALLAUR=(aaxtomp3 \
     ntfs3-dkms \
     papirus-icon-theme-git \
     rofi-lbonn-wayland \
+    ttf-ms-fonts \
+    ttf-linux-libertine \
+    ttf-dejavu \
     visual-studio-code-bin \
     xcursor-breeze \
     xp-pen-tablet \
