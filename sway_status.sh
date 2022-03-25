@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#sep='\e[1;90m | \e[0m'
 sep=' | '
 
 while true; do
@@ -14,11 +15,11 @@ while true; do
 
     if [[ ! -z "$network_ssid" ]]; then
         output="${network_ssid}${sep}"
+        if [[ ! -z "$weather" ]] & [[ ! "$(echo $weather | awk '{ print $1 }')" = "Unknown" ]]; then
+            output="${output}${weather}${sep}"
+        fi
     fi
 
-    if [[ ! -z "$weather" ]] & [[ ! "$(echo $weather | awk '{ print $1 }')" = "Unknown" ]]; then
-        output="${output}${weather}${sep}"
-    fi
 
     # Fixes problem with acpi showing the battery state for the wrong battery
     if [[ "$battery_remaining_time" = "rate" ]]; then
@@ -46,6 +47,6 @@ while true; do
         output="${output}${sep}"
     fi
 
-    echo "${output}${time}${sep}"
+    echo -e "${output}${time}${sep}"
     sleep 1;
 done
