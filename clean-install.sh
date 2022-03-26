@@ -44,6 +44,7 @@ TOINSTALL=(git \
     slurp \
     imagemagick \
     inotify-tools \
+    jq \
     keepassxc \
     keychain \
     man \
@@ -56,6 +57,7 @@ TOINSTALL=(git \
     openssh \
     owncloud-client \
     pcmanfm \
+    playerctl \
     python \
     python-pip \
     ranger \
@@ -70,6 +72,7 @@ TOINSTALL=(git \
     unzip \
     volumeicon \
     vlc \
+    waybar \
     wget \
     which \
     whois \
