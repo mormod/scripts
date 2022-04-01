@@ -41,6 +41,7 @@ TOINSTALL=(git \
     gnome-keyring \
     grep \
     git \
+    git-delta \
     grim \
     slurp \
     imagemagick \
@@ -208,6 +209,14 @@ sudo usermod -aG video $(id -un)
 # enable bluetooth
 systemctl enable --now bluetooth.service
 systemctl enable --now bluetooth-autostart.service
+
+# set up git
+git config --global user.name "Moritz Hüllmann"
+git config --global core.pager=delta
+git config --global interactive.difffilter=delta --color-only
+git config --global delta.navigate=true
+git config --global merge.confictstyle=diff3
+git config --global diff.colormoved=default
 
 ###########################################################################
 ### wrapup stuff ##########################################################
