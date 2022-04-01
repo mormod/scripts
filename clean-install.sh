@@ -34,6 +34,7 @@ TOINSTALL=(git \
     ethtool \
     firefox \
     ffmpeg \
+    fwupd \
     gcc \
     gcc-libs \
     gdb \
