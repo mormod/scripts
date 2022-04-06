@@ -205,7 +205,10 @@ git clone https://github.com/mormod/scripts ~/src/scripts
 chezmoi init --apply https://github.com/mormod/dotfiles.git
 
 # make light (display brightness) executeable without root
+# and set the minimal brightness to 5%
 sudo usermod -aG video $(id -un) 
+light -N 5 || true
+
 # enable bluetooth
 systemctl enable --now bluetooth.service
 systemctl enable --now bluetooth-autostart.service
