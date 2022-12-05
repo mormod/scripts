@@ -98,6 +98,7 @@ TOINSTALLAUR=(aaxtomp3 \
     ntfs3-dkms \
     papirus-icon-theme-git \
     rofi-lbonn-wayland \
+    spotify \
     ttf-ms-fonts \
     ttf-linux-libertine \
     ttf-dejavu \
@@ -164,13 +165,6 @@ do
     echo "Installed" $pkg
 done
 
-echo "Installing spotify"
-git clone https://aur.archlinux.org/spotify.git spotify
-cd spotify
-curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --import -
-makepkg -si
-echo "Installed spotify"
-
 echo "Generating man-pages"
 sudo mandb
 
@@ -214,7 +208,7 @@ systemctl enable --now bluetooth.service
 systemctl enable --now bluetooth-autostart.service
 
 # set up git
-git config --global user.name "Moritz Hüllmann"
+git config --global user.name "Moritz Reinhard Hüllmann"
 git config --global core.pager=delta
 git config --global interactive.difffilter=delta --color-only
 git config --global delta.navigate=true
